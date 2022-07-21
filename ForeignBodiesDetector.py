@@ -13,10 +13,6 @@ def toGrayScale(image):
     grayScale = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     return grayScale
 
-def gaussFilter(image):
-    gaussFilteredImage = cv2.medianBlur(image, 1)
-    return gaussFilteredImage
-
 ## Controle de brilho e contraste
 ## Expressão obtida pelo trabalho disponível em: https://codestack.club/questions/1935302/brilho-e-contraste-do-opencv-como-no-gimp
 def gimpBrightContrastControl(image, brightness: float, contrast: float):
@@ -122,8 +118,7 @@ def main():
     for i in range (0, len(imagens)):
         loadedImage = loadImage(imagens[i])
         grayImage = toGrayScale(loadedImage)
-        imageGauss = gaussFilter(grayImage)
-        adjustedContrastBrightImg = gimpBrightContrastControl(imageGauss, -100, 40)
+        adjustedContrastBrightImg = gimpBrightContrastControl(grayImage, -100, 40)
         xSobelGradient = applySobelGradientX(adjustedContrastBrightImg, 1, 0, cv2.CV_16UC1)
         ySobelGradient = applySobelGradientY(adjustedContrastBrightImg, 1, 0, cv2.CV_16UC1)
         imgSobel = mergeGradients(xSobelGradient, ySobelGradient)
